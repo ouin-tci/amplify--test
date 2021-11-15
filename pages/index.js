@@ -11,6 +11,9 @@ import { Storage } from 'aws-amplify';
 export default function Home() {
   const [todoLists, setTodoLists] = useState({});
   const [s3files, setS3Files] = useState([]);
+  const [points, setPoints] = useState([]);
+  // const [cx, setCanvas] = useState(null);
+  let cx = null;
 
   const fetchTodo =  async() => {
     const allTodos = await API.graphql({ query: listTodos });
@@ -83,6 +86,30 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      <canvas width="700" height="500" className={styles.canvas} id="drawer" onClick={(event) => {
+        console.log(event);
+        if(cx == null) {
+          cx =  document.getElementById("drawer").getContext("2d");
+          cx.clearRect(0, 0, 700, 500);
+          cx.beginPath();
+          cx.moveTo(event.pageX, event.pageY);
+        } else {
+          cx.lineTo(event.pageX, event.pageY);
+        }
+        console.log(event.pageX, event.pageY);
+
+      }}></canvas>
+      <button className={styles.fillBtn} onClick={() => {
+        if(cx != null) {
+          cx.fillStyle = "rgba(255,165,0,0.6)";
+          cx.fill();
+          cx = null;
+        } else {
+          alert("choose point on the canvas.")
+        }
+
+      }}>Fill</button>
 
       <footer className={styles.footer}>
         <a

@@ -114,3 +114,18 @@
     flex-direction: column;
   }
 }
+
+
+.canvas {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 500px;
+  width: 700px;
+  border: 1px solid red;
+}
+.fillBtn {
+  position: absolute;
+  top: 500px;
+  left: 0px;
+}
