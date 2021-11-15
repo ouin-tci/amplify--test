@@ -1,9 +1,26 @@
+import { useState, useEffect } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { API } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import {listTodos}  from '../src/graphql/queries';
+import {createTodo}  from '../src/graphql/mutations';
+import { Storage } from 'aws-amplify';
 
 export default function Home() {
+  const [todoLists, setTodoLists] = useState({});
+  const [s3files, setS3Files] = useState([]);
+
+  const fetchTodo =  async() => {
+    const allTodos = await API.graphql({ query: listTodos });
+    setTodoLists(allTodos);
+  };
+
+  useEffect(async()=> {
+    await fetchTodo();
+  }, []);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,8 +29,59 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
         <AmplifySignOut />
+      <main className={styles.main}>
+
+        <div>
+          <div>upload file</div>
+          <input type="file" id="my-file"/>
+          <button onClick={async() => {
+             const file = document.getElementById("my-file").files[0];
+             console.log(file);
+             try {
+              await Storage.put(file.name, file);
+            } catch (error) {
+              console.log("Error uploading file: ", error);
+            }
+          }}>upload</button>
+
+          <button onClick={async() => {
+            const allS3files = await Storage.list('');
+            const files = await Promise.all(allS3files.map(async(file) => {
+              const signUrl = await Storage.get(file.key);
+              return {
+                url: signUrl,
+                key: file.key
+              }
+            }));
+
+            console.log(files);
+            setS3Files(files);
+          }}>List files</button>
+
+          {s3files.map(file => <div key={file.url} ><a href={file.url}>{file.key}</a></div>)}
+        </div>
+        <div>Todo list</div>
+        <button onClick={async() => {
+            const todoDetails = {
+              name: 'Todo ' + Math.floor((Math.random() * 100)),
+              description: 'Learn AWS AppSync'
+            };
+
+            const newTodo = await API.graphql({ query: createTodo, variables: {input: todoDetails}});
+            if(!newTodo.errors) {
+              await fetchTodo();
+            }
+
+        }}>Add TODO</button>
+        <button onClick={fetchTodo}>TODO List</button>
+
+        {todoLists.data?.listTodos?.items?.map((item) => 
+          <div key={item.id}>
+            <p>{item.name}</p>
+            <p>{item.description}</p>
+          </div>
+        )}
       </main>
 
       <footer className={styles.footer}>

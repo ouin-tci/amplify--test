@@ -1,26 +1,32 @@
 {
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-nextamplified-dev-110251-authRole",
-            "UnauthRoleArn": "arn:aws:iam::234964765706:role/amplify-nextamplified-dev-110251-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::234964765706:role/amplify-nextamplified-dev-110251-authRole",
-            "Region": "ap-northeast-1",
-            "DeploymentBucketName": "amplify-nextamplified-dev-110251-deployment",
-            "UnauthRoleName": "amplify-nextamplified-dev-110251-unauthRole",
-            "StackName": "amplify-nextamplified-dev-110251",
-            "StackId": "arn:aws:cloudformation:ap-northeast-1:234964765706:stack/amplify-nextamplified-dev-110251/26140cf0-45b8-11ec-8574-0e10ba58e8a3",
-            "AmplifyAppId": "d74y48ncphcny"
-        },
-        "categories": {
-            "auth": {
-                "nextamplifiedac31ff38": {}
-            },
-            "hosting": {
-                "amplifyhosting": {
-                    "appId": "d74y48ncphcny",
-                    "type": "cicd"
-                }
-            }
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-nextamplified-dev-110251-authRole",
+      "UnauthRoleArn": "arn:aws:iam::234964765706:role/amplify-nextamplified-dev-110251-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::234964765706:role/amplify-nextamplified-dev-110251-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-nextamplified-dev-110251-deployment",
+      "UnauthRoleName": "amplify-nextamplified-dev-110251-unauthRole",
+      "StackName": "amplify-nextamplified-dev-110251",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:234964765706:stack/amplify-nextamplified-dev-110251/26140cf0-45b8-11ec-8574-0e10ba58e8a3",
+      "AmplifyAppId": "d74y48ncphcny"
+    },
+    "categories": {
+      "auth": {
+        "nextamplifiedac31ff38": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d74y48ncphcny",
+          "type": "cicd"
         }
+      },
+      "function": {
+        "S3Triggerfde54dcf": {
+          "deploymentBucketName": "amplify-nextamplified-dev-110251-deployment",
+          "s3Key": "amplify-builds/S3Triggerfde54dcf-666b68435559546c3838-build.zip"
+        }
+      }
     }
+  }
 }
